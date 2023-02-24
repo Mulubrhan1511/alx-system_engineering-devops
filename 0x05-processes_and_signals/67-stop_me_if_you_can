@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Bash script that kill PID.
+pkill -f 7-highlander
