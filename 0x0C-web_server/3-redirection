@@ -1,17 +1,23 @@
-#!/usr/bin/env bash
-# Install nginx web server
+#!/bin/bash
 
-apt-get update
-apt-get install nginx -y
+# Install Nginx web server
+sudo apt-get update
+sudo apt-get install nginx -y
 
+# Create a new configuration file for the redirection
+sudo touch /etc/nginx/sites-available/redirect_me.conf
+sudo chmod 666 /etc/nginx/sites-available/redirect_me.conf
 
-sudo service nginx start
-sudo ufw allow 'Nginx HTTP'
-sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -R 755 /var/www
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
-echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
-sudo sed -i '24i\	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+# Edit the configuration file to include the redirection
+echo "server {
+    listen 80;
+    server_name http://mulubrhan.tech/;
+    return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4/;
+}" >> /etc/nginx/sites-available/redirect_me.conf
+
+# Create a symbolic link to enable the configuration
+sudo ln -s /etc/nginx/sites-available/redirect_me.conf /etc/nginx/sites-enabled/
+
+# Test the configuration and restart Nginx
+sudo nginx -t
 sudo service nginx restart
-echo -e "\nCompleted.\n"
