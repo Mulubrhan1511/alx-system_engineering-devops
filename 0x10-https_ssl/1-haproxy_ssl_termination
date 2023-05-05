@@ -29,7 +29,7 @@ frontend front_http
         default_backend back_http
 
 frontend front_https
-        bind 0.0.0.0:443 ssl crt /etc/letsencrypt/live/www.mulubrhan.tech/all.pem
+        bind 0.0.0.0:443 ssl crt /etc/letsencrypt/live/www.mulubrhan.tech/fullchain.pem
         acl    letsencrypt-acl path_beg /.well-known/acme-challenge/
         use_backend letsencrypt-backend if letsencrypt-acl
         default_backend back_http
