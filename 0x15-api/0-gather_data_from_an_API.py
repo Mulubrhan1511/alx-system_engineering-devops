@@ -19,6 +19,6 @@ if __name__ == '__main__':
                 n.append(str(task["title"]))
                 j = j + 1
             i = i + 1
-    print("Employee Name: OK")
+    print("Employee {} is done with tasks({}/{}):".format(m, j, i))
     for k in n:
         print('\t {}'.format(k))
