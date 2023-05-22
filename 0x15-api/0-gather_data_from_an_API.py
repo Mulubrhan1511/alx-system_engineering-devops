@@ -1,24 +1,16 @@
 #!/usr/bin/python3
-''' makes a get request to a REST API '''
 import requests
-from sys import argv
+import sys
 
-
-if __name__ == '__main__':
-    url = 'https://jsonplaceholder.typicode.com/'
-    i = 0
-    j = 0
-    n = []
-    user_id = argv[1]
-    user_data = requests.get(url + 'users/' + user_id).json()
-    task_data = requests.get(url + 'todos').json()
-    m = user_data['name']
-    for task in task_data:
-        if str(task['userId']) == user_id:
-            if str(task["completed"]) == 'True':
-                n.append(str(task["title"]))
-                j = j + 1
-            i = i + 1
-    print("Employee {} is done with tasks({}/{}):".format(m, j, i))
-    for k in n:
-        print('\t {}'.format(k))
+if __name__ == "main":
+    url = "https://jsonplaceholder.typicode.com/users/"
+    user_id = sys.argv[1]
+    user = requests.get(url + user_id).json()
+    todo = requests.get(url + user_id + "/todos").json()
+    name = user.get("name")
+    tasks = []
+    for task in todo:
+        tasks.append(task.get("title"))
+    print("Employee {} is done with tasks({}/{}):".format(name, len(tasks), len(todo)))
+    for task in tasks:
+        print("\t{}".format(task))
