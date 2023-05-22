@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 ''' makes a get request to a REST API '''
-import requests
 import json
+import requests
 from sys import argv
 
 if __name__ == '__main__':
