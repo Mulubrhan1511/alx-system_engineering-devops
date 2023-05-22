@@ -1,31 +1,24 @@
 #!/usr/bin/python3
-"""Accessing a REST API for todo lists of employees"""
-
+''' makes a get request to a REST API '''
 import requests
-import sys
+from sys import argv
 
 
 if __name__ == '__main__':
-    employeeId = sys.argv[1]
-    baseUrl = "https://jsonplaceholder.typicode.com/users"
-    url = baseUrl + "/" + employeeId
-
-    response = requests.get(url)
-    employeeName = response.json().get('name')
-
-    todoUrl = url + "/todos"
-    response = requests.get(todoUrl)
-    tasks = response.json()
-    done = 0
-    done_tasks = []
-
-    for task in tasks:
-        if task.get('completed'):
-            done_tasks.append(task)
-            done += 1
-
-    print("Employee {} is done with tasks({}/{}):"
-          .format(employeeName, done, len(tasks)))
-
-    for task in done_tasks:
-        print("\t {}".format(task.get('title')))
+    url = 'https://jsonplaceholder.typicode.com/'
+    i = 0
+    j = 0
+    n = []
+    user_id = argv[1]
+    user_data = requests.get(url + 'users/' + user_id).json()
+    task_data = requests.get(url + 'todos').json()
+    m = user_data['name']
+    for task in task_data:
+        if str(task['userId']) == user_id:
+            if str(task["completed"]) == 'True':
+                n.append(str(task["title"]))
+                j = j + 1
+            i = i + 1
+    print("Employee {} is done with tasks({}/{}):".format(m, j, i))
+    for k in n:
+        print('\t {}'.format(k))
