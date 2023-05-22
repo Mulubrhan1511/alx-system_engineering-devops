@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 ''' makes a get request to a REST API '''
-import requests
 import csv
+import requests
 from sys import argv
 
 if __name__ == '__main__':
@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     with open('{}.csv'.format(user_id), mode="w", newline="") as file:
         writer = csv.writer(file, quoting=csv.QUOTE_ALL)
-        #writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
         for task in task_data:
             if str(task['userId']) == user_id:
-                writer.writerow([user_id, user_name, str(task['completed']), task['title']])
+                writer.writerow([user_id, user_name,
+                                str(task['completed']), task['title']])
