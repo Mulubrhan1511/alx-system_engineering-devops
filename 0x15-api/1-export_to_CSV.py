@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+''' makes a get request to a REST API '''
 import requests
 import csv
 from sys import argv
