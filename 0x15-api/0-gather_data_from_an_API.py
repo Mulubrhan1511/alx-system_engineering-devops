@@ -6,19 +6,11 @@ from sys import argv
 
 if __name__ == '__main__':
     url = 'https://jsonplaceholder.typicode.com/'
-    i = 0
-    j = 0
-    n = []
-    user_id = argv[1]
-    user_data = requests.get(url + 'users/' + user_id).json()
-    task_data = requests.get(url + 'todos').json()
-    m = user_data['name']
-    for task in task_data:
-        if str(task['userId']) == user_id:
-            if str(task["completed"]) == 'True':
-                n.append(str(task["title"]))
-                j = j + 1
-            i = i + 1
-    print("Employee {} is done with tasks({}/{}):".format(m, j, i))
-    for k in n:
-        print('\t {}'.format(k))
+    user_data = requests.get(url + 'users/{}'.format(argv[1])).json()
+    user_tasks = requests.get(url + 'todos', params={'userId': argv[1]}).json()
+    completed_tasks = [task.get('title')
+                       for task in user_tasks if task.get('completed') is True]
+    print('Employee {} is done with tasks({}/{}):'
+          .format(user_data.get('name'),
+                  len(completed_tasks), len(user_tasks)))
+    [print('\t {}'.format(title)) for title in completed_tasks]
