@@ -21,4 +21,4 @@ if __name__ == '__main__':
             i = i + 1
     print("Employee {} is done with({}/{}):".format(m, i, j))
     for k in n:
-        print('\t{}'.format(k))
+        print('\t {}'.format(k))
