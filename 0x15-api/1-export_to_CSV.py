@@ -1,19 +1,34 @@
 #!/usr/bin/python3
-''' makes a get request to a REST API '''
+""" Script that uses JSONPlaceholder API to get information about employee """
 import csv
 import requests
-from sys import argv
+import sys
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     url = 'https://jsonplaceholder.typicode.com/'
-    user_id = argv[1]
-    user_data = requests.get(url + 'users/' + user_id).json()
-    task_data = requests.get(url + 'todos').json()
-    user_name = user_data['name']
 
-    with open('{}.csv'.format(user_id), mode="w", newline="") as file:
-        writer = csv.writer(file, quoting=csv.QUOTE_ALL)
-        for task in task_data:
-            if str(task['userId']) == user_id:
-                writer.writerow([user_id, user_name,
-                                str(task['completed']), task['title']])
+    userid = sys.argv[1]
+    user = '{}users/{}'.format(url, userid)
+    res = requests.get(user)
+    json_o = res.json()
+    name = json_o.get('username')
+
+    todos = '{}todos?userId={}'.format(url, userid)
+    res = requests.get(todos)
+    tasks = res.json()
+    l_task = []
+    for task in tasks:
+        l_task.append([userid,
+                       name,
+                       task.get('completed'),
+                       task.get('title')])
+
+    filename = '{}.csv'.format(userid)
+    with open(filename, mode='w') as employee_file:
+        employee_writer = csv.writer(employee_file,
+                                     delimiter=',',
+                                     quotechar='"',
+                                     quoting=csv.QUOTE_ALL)
+        for task in l_task:
+            employee_writer.writerow(task)
