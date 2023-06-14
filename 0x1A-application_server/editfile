@@ -1,0 +1,8 @@
+sudo nano /etc/nginx/sites-available/airbnb-onepage
+sudo ln -s /etc/nginx/sites-available/airbnb-onepage /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+sudo nano /etc/nginx/sites-available/airbnb-dynamic
+sudo ln -s /etc/nginx/sites-available/airbnb-dynamic /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
