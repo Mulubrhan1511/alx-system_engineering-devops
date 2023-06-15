@@ -1,11 +1,6 @@
-#  fix our stack so that we get to 0
-file { 'replace last line':
+# to login with the holberton user and open a file without any error message.
+file { 'loginFile':
     ensure  => present,
-    path    => '/etc/default/nginx',
-    content => 'ULIMIT="-n 4096"',
-}
-
-service { 'nginx':
-    ensure    => running,
-    subscribe => File['/etc/default/nginx']
+    path    => '/etc/security/limits.conf',
+    content => '#File erased'
 }
