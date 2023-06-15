@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Get the process ID of the Gunicorn master process
+PID=$(cat /home/ubuntu/AirBnB_clone_v4/gunicorn.pid)
+
+# Gracefully reload Gunicorn by sending a SIGHUP signal to the master process
+kill -HUP $PID
+
+# Wait for the worker processes to finish processing their current requests
+sleep 5
+
+# Check if the worker processes are still alive
+while ps -p $PID > /dev/null; do sleep 1; done
+
+# Start new worker processes with the updated code or configuration
+/home/ubuntu/AirBnB_clone_v4/venv/bin/gunicorn --workers 4 --bind unix:airbnb.sock -m 007 wsgi:app
